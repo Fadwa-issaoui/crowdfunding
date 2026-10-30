@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue des Plateformes de Crowdfunding</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: {
+                            50: '#f4f6f2',
+                            100: '#e5ebd9',
+                            500: '#728c69',
+                            600: '#5c7354',
+                            700: '#485b42',
+                        },
+                        cream: '#fbf9f5',
+                        taupe: {
+                            DEFAULT: '#8b8580',
+                            light: '#a39d98',
+                            dark: '#68625d'
+                        },
+                        slateDark: '#2c3531',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fbf9f5;
+            color: #2c3531;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 133, 128, 0.15);
+        }
+        .modal-blur {
+            backdrop-filter: blur(8px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fbf9f5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a39d98;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #728c69;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-sage-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="relative bg-slateDark text-cream pt-12 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden shadow-xl">
+        <!-- Subtle Decorative Background Patterns -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-sage-500 opacity-20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-taupe opacity-20 blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10 text-center">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sage-500/20 text-sage-100 border border-sage-500/30 text-xs font-medium mb-6">
+                <i class="fa-solid fa-seedling text-sage-500"></i>
+                <span>Guide interactif du Financement Participatif</span>
+            </div>
+            
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-semibold tracking-tight text-cream mb-4">
+                Catalogue des Plateformes de Crowdfunding
+            </h1>
+            
+            <p class="max-w-2xl mx-auto text-taupe-light text-base sm:text-lg leading-relaxed font-light">
+                Découvrez les meilleures solutions mondiales et régionales pour financer vos projets : dons, précommandes, prêts à impact ou prises de participation.
+            </p>
+
+            <!-- Quick Types Pill Bar -->
+            <div class="mt-8 flex flex-wrap justify-center gap-3 text-xs sm:text-sm">
+                <span class="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-cream/80"><i class="fa-solid fa-hand-holding-heart text-sage-500 mr-1.5"></i> Don & Solidaire</span>
+                <span class="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-cream/80"><i class="fa-solid fa-gift text-sage-500 mr-1.5"></i> Récompense</span>
+                <span class="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-cream/80"><i class="fa-solid fa-hand-holding-dollar text-sage-500 mr-1.5"></i> Prêt / Micro-crédit</span>
+                <span class="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-cream/80"><i class="fa-solid fa-chart-line text-sage-500 mr-1.5"></i> Equity / Capital</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 mb-16 relative z-20 flex-grow w-full">
+        
+        <!-- Search and Filter Bar -->
+        <section class="glass-card rounded-2xl p-4 sm:p-6 shadow-lg mb-10 border border-taupe/20">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                
+                <!-- Search Input -->
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-taupe"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Rechercher une plateforme, un pays..." 
+                        class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-taupe/30 bg-white/80 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sage-500 text-sm transition-all"
+                        onkeyup="filterPlatforms()"
+                    >
+                </div>
+
+                <!-- Filter Categories -->
+                <div class="flex flex-wrap gap-2 w-full md:w-auto justify-center md:justify-end" id="filterButtons">
+                    <button onclick="setCategory('all')" class="filter-btn active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-sage-500 text-white shadow-sm" data-category="all">
+                        Tous
+                    </button>
+                    <button onclick="setCategory('don')" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white border border-taupe/20 text-slateDark hover:bg-sage-50" data-category="don">
+                        Don & Solidaire
+                    </button>
+                    <button onclick="setCategory('recompense')" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white border border-taupe/20 text-slateDark hover:bg-sage-50" data-category="recompense">
+                        Récompense
+                    </button>
+                    <button onclick="setCategory('pret')" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white border border-taupe/20 text-slateDark hover:bg-sage-50" data-category="pret">
+                        Prêt
+                    </button>
+                    <button onclick="setCategory('equity')" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-white border border-taupe/20 text-slateDark hover:bg-sage-50" data-category="equity">
+                        Equity / Investissement
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Catalog Grid -->
+        <div id="platformGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Cards generated dynamically by JS -->
+        </div>
+
+        <!-- Empty State Message -->
+        <div id="noResults" class="hidden text-center py-16">
+            <div class="w-16 h-16 bg-taupe/10 rounded-full flex items-center justify-center mx-auto mb-4 text-taupe text-2xl">
+                <i class="fa-solid fa-search"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-slateDark">Aucune plateforme trouvée</h3>
+            <p class="text-taupe text-sm mt-1">Essayez de modifier votre recherche ou de changer de filtre.</p>
+        </div>
+
+    </main>
+
+    <!-- Modal for Detailed View -->
+    <div id="platformModal" class="fixed inset-0 z-50 hidden overflow-y-auto modal-blur bg-slateDark/60 flex items-center justify-center p-4 sm:p-6 transition-opacity duration-300">
+        <div class="bg-cream rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-taupe/20 transform transition-all relative my-8">
+            
+            <!-- Modal Header / Image -->
+            <div class="relative h-56 sm:h-64 bg-slateDark">
+                <img id="modalImage" src="" alt="" class="w-full h-full object-cover opacity-90">
+                <div class="absolute inset-0 bg-gradient-to-t from-slateDark via-slateDark/30 to-transparent"></div>
+                
+                <!-- Close Button -->
+                <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slateDark/60 text-white hover:bg-slateDark flex items-center justify-center backdrop-blur-md transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <div class="absolute bottom-4 left-6 right-6">
+                    <span id="modalCategory" class="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-sage-500 text-white mb-2 shadow-sm">
+                        <!-- Category Badge -->
+                    </span>
+                    <h2 id="modalTitle" class="text-2xl sm:text-3xl font-serif font-bold text-cream">
+                        <!-- Title -->
+                    </h2>
+                </div>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-6 sm:p-8 space-y-6">
+                
+                <!-- Info Chips -->
+                <div class="grid grid-cols-2 gap-4 bg-white/70 p-4 rounded-2xl border border-taupe/10 text-xs sm:text-sm">
+                    <div>
+                        <span class="block text-taupe font-medium text-xs">Zone géographique</span>
+                        <span id="modalZone" class="font-semibold text-slateDark flex items-center gap-1.5 mt-0.5">
+                            <i class="fa-solid fa-earth-americas text-sage-500"></i> <span></span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block text-taupe font-medium text-xs">Modèle de financement</span>
+                        <span id="modalModel" class="font-semibold text-slateDark flex items-center gap-1.5 mt-0.5">
+                            <i class="fa-solid fa-coins text-sage-500"></i> <span></span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Detailed Description -->
+                <div>
+                    <h3 class="text-xs font-bold tracking-wider text-taupe uppercase mb-2">À propos de la plateforme</h3>
+                    <p id="modalDescription" class="text-slateDark/90 text-sm sm:text-base leading-relaxed">
+                        <!-- Description -->
+                    </p>
+                </div>
+
+                <!-- Key Highlights -->
+                <div>
+                    <h3 class="text-xs font-bold tracking-wider text-taupe uppercase mb-3">Points Clés & Spécificités</h3>
+                    <ul id="modalHighlights" class="space-y-2 text-xs sm:text-sm text-slateDark/80">
+                        <!-- Highlights List -->
+                    </ul>
+                </div>
+
+                <!-- Footer Action Buttons -->
+                <div class="pt-4 border-t border-taupe/10 flex items-center justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2.5 rounded-xl border border-taupe/30 text-slateDark text-sm font-medium hover:bg-taupe/10 transition-all">
+                        Fermer
+                    </button>
+                    <a id="modalLink" href="#" target="_blank" rel="noopener noreferrer" class="px-6 py-2.5 rounded-xl bg-sage-500 hover:bg-sage-600 text-white text-sm font-medium shadow-md transition-all flex items-center gap-2">
+                        <span>Visiter le site officiel</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slateDark text-cream/70 py-8 px-4 text-center border-t border-taupe/20 text-xs sm:text-sm">
+        <div class="max-w-6xl mx-auto space-y-2">
+            <p class="font-serif text-base text-cream">Catalogue Interactif des Plateformes de Financement Participatif</p>
+            <p class="text-taupe-light">Conçu pour être partagé facilement via QR Code &bull; Responsive & Accessible</p>
+            <p class="pt-2 text-taupe">&copy; 2026 Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Platform Data Array
+        const platforms = [
+            {
+                id: 'gofundme',
+                name: 'GoFundMe',
+                category: 'don',
+                categoryLabel: 'Don & Solidaire',
+                zone: 'Mondial (USA, Europe...)',
+                model: 'Don personnel & Entraide',
+                image: 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'La plus grande plateforme mondiale de collecte de fonds personnelle et solidaire pour des causes médicales, éducatives ou d\'urgence.',
+                description: 'GoFundMe est la plateforme mondiale leader pour les collectes de fonds individuelles et caritatives. Elle permet à chacun de créer rapidement une campagne pour financer des frais médicaux, des projets communautaires, des aides d\'urgence ou des études.',
+                highlights: [
+                    'Aucun frais de plateforme pour la création de campagne',
+                    'Accès immédiat aux fonds collectés sans objectif minimum requis',
+                    'Forte viralité sur les réseaux sociaux'
+                ],
+                url: 'https://www.gofundme.com'
+            },
+            {
+                id: 'kickstarter',
+                name: 'Kickstarter',
+                category: 'recompense',
+                categoryLabel: 'Récompense',
+                zone: 'International',
+                model: 'Tout ou Rien (Précommandes)',
+                image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Référence mondiale pour le financement de projets créatifs, d\'inventions technologiques, de jeux de société et de design.',
+                description: 'Kickstarter aide les créateurs, artistes, designers et inventeurs à trouver les ressources nécessaires pour concrétiser leurs projets. Le principe repose sur le modèle du "Tout ou Rien" : la campagne doit atteindre son objectif financier pour percevoir les fonds.',
+                highlights: [
+                    'Grande communauté d\'early adopters et de passionnés de tech/design',
+                    'Principe du "Tout ou Rien" sécurisant pour les contributeurs',
+                    'Idéal pour valider un marché avant la production en masse'
+                ],
+                url: 'https://www.kickstarter.com'
+            },
+            {
+                id: 'indiegogo',
+                name: 'Indiegogo',
+                category: 'recompense',
+                categoryLabel: 'Récompense',
+                zone: 'Mondial',
+                model: 'Flexible ou Tout ou Rien',
+                image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Plateforme pionnière offrant une grande flexibilité pour les innovations technologiques, gadgets et projets créatifs.',
+                description: 'Indiegogo offre une grande souplesse aux entrepreneurs en leur permettant de choisir entre un objectif de financement flexible (garder les fonds même si l\'objectif n\'est pas atteint) ou fixe. Elle propose aussi la suite "InDemand" pour continuer à vendre après la campagne.',
+                highlights: [
+                    'Option de financement flexible idéale pour les prototypes avancés',
+                    'Programme Indiegogo InDemand pour étendre la phase de précommande',
+                    'Focus sur les gadgets innovants et la technologie'
+                ],
+                url: 'https://www.indiegogo.com'
+            },
+            {
+                id: 'ulule',
+                name: 'Ulule',
+                category: 'recompense',
+                categoryLabel: 'Récompense',
+                zone: 'Europe (France)',
+                model: 'Précommandes & Dons',
+                image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Leader européen du financement participatif à impact positif, dédié aux projets créatifs, locaux et écoresponsables.',
+                description: 'Ulule est la plateforme de référence en Europe francophone. Elle accompagne les créateurs dans le lancement de produits écoresponsables, d\'initiatives citoyennes, de livres, de projets culturels et d\'entreprises engagées.',
+                highlights: [
+                    'Accompagnement personnalisé et conseils de préparation de campagne',
+                    'Taux de réussite des campagnes très élevé (+75%)',
+                    'Forte communauté d\'utilisateurs axée sur l\'impact et l\'écoresponsabilité'
+                ],
+                url: 'https://www.ulule.com'
+            },
+            {
+                id: 'kiva',
+                name: 'Kiva',
+                category: 'pret',
+                categoryLabel: 'Prêt Solidaire',
+                zone: 'International (+80 pays)',
+                model: 'Micro-prêt à 0% d\'intérêt',
+                image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Organisation à but non lucratif permettant de prêter dès 25$ à des micro-entrepreneurs et étudiants dans le monde entier.',
+                description: 'Kiva est une plateforme unique de micro-crédit solidaire. Les utilisateurs prêtent de petites sommes pour aider des agriculteurs, artisans ou étudiants dans des pays en développement à développer leur activité ou payer leurs études.',
+                highlights: [
+                    'Taux de remboursement historique de plus de 96%',
+                    'Impact social direct et transparent sur des communautés vulnérables',
+                    'Modèle 100% solidaire (chaque dollar remboursé peut être reloué)'
+                ],
+                url: 'https://www.kiva.org'
+            },
+            {
+                id: 'funding-circle',
+                name: 'Funding Circle',
+                category: 'pret',
+                categoryLabel: 'Prêt / Crowd-lending',
+                zone: 'Royaume-Uni, USA',
+                model: 'Prêt aux PME',
+                image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Plateforme spécialisée dans le crédit aux petites et moyennes entreprises pour financer leur croissance.',
+                description: 'Funding Circle permet aux investisseurs particuliers et institutionnels de prêter directement de l\'argent à des PME établies et solvables, en contournant les circuits bancaires traditionnels.',
+                highlights: [
+                    'Financement rapide pour les besoins en trésorerie ou développement des PME',
+                    'Rendements fixes sous forme d\'intérêts mensuels pour les investisseurs',
+                    'Analyse rigoureuse des risques par des algorithmes financiers'
+                ],
+                url: 'https://www.fundingcircle.com'
+            },
+            {
+                id: 'crowdcube',
+                name: 'Crowdcube',
+                category: 'equity',
+                categoryLabel: 'Equity / Investissement',
+                zone: 'Europe & Royaume-Uni',
+                model: 'Investissement au capital',
+                image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Pionnier européen de l\'equity crowdfunding, permettant de devenir actionnaire de startups et scale-ups prometteuses.',
+                description: 'Crowdcube offre la possibilité aux particuliers d\'investir aux côtés de fonds de venture capital dans des entreprises innovantes (ex: Revolut, Monzo, BrewDog) en échange d\'actions.',
+                highlights: [
+                    'Possibilité de devenir actionnaire de startups à fort potentiel dès 10€',
+                    'Plateforme agréée et régulée en Europe',
+                    'Large communauté de plus d\'un million d\'investisseurs'
+                ],
+                url: 'https://www.crowdcube.com'
+            },
+            {
+                id: 'seedrs',
+                name: 'Seedrs',
+                category: 'equity',
+                categoryLabel: 'Equity / Investissement',
+                zone: 'Europe & UK',
+                model: 'Investissement en actions',
+                image: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Plateforme d\'investissement en fonds propres réputée pour sa structure de mandat de gestion (nominee structure).',
+                description: 'Seedrs permet d\'investir dans des jeunes pousses et des entreprises en forte croissance. Elle gère la totalité du processus administratif et juridique via un système d\'actionnaire délégué (Nominee).',
+                highlights: [
+                    'Marché secondaire permettant de revendre ses actions avant la sortie',
+                    'Gestion simplifiée des tables de capitalisation pour les entrepreneurs',
+                    'Opportunités dans tous les secteurs d\'avenir (Fintech, Healthtech, Green)'
+                ],
+                url: 'https://www.seedrs.com'
+            },
+            {
+                id: 'cnbees',
+                name: 'Cnbees',
+                category: 'recompense',
+                categoryLabel: 'Récompense & Projets',
+                zone: 'National',
+                model: 'Financement participatif global',
+                image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Plateforme dynamique axée sur la promotion d\'initiatives locales, de projets éducatifs, technologiques et sociaux.',
+                description: 'CnBees est une plateforme tunisienne de financement participatif destinée à soutenir les porteurs de projets entrepreneuriaux à impact social, environnemental et territorial. Elle met en relation les porteurs de projets avec des contributeurs souhaitant soutenir financièrement des initiatives à impact positif.',
+                highlights: [
+                    'Plateforme agréée par les autorités tunisiennes pour le financement participatif par dons et libéralités.',
+                    'Accompagnement des porteurs de projets dans la préparation de leurs campagnes et leur communication.',
+                    'Possibilité de collecter des fonds par des dons, avec ou sans contreparties.',
+					'Mise en relation entre les porteurs de projets et une communauté de contributeurs.',
+					'Outils de communication et d\'interaction communautaire, notamment un espace de discussion et un forum.'
+                ],
+                url: 'https://www.cnbees.tn'
+            },
+            {
+                id: 'afrikwity',
+                name: 'Afrikwity',
+                category: 'equity',
+                categoryLabel: 'Equity / Afrique',
+                zone: 'Afrique & Diaspora',
+                model: 'Investissement en capital',
+                image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Plateforme d\'equity crowdfunding dédiée au financement des startups et PME innovantes en Afrique.',
+                description: 'Afrikwity connecte les investisseurs de la diaspora et internationaux avec des entrepreneurs africains à fort potentiel. Elle facilite le financement en fonds propres pour stimuler l\'impact économique sur le continent.',
+                highlights: [
+                    'Focus exclusif sur la croissance économique en Afrique',
+                    'Implication forte de la diaspora africaine dans l\'investissement direct',
+                    'Sélection stricte et accompagnement des startups'
+                ],
+                url: 'https://www.afrikwity.com'
+            },
+            {
+                id: 'cofundy',
+                name: 'Cofundy',
+                category: 'don',
+                categoryLabel: 'Don & Solidaire',
+                zone: 'Afrique du Nord & Afrique',
+                model: 'Collecte de fonds en ligne',
+                image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=800&q=80',
+                shortDesc: 'Plateforme de cagnotte en ligne et financement participatif adaptée aux besoins des projets solidaires et personnels.',
+                description: 'Cofundy permet de créer rapidement des cagnottes en ligne sécurisées pour financer des causes caritatives, des projets associatifs, médicaux ou de création d\'entreprise régionale.',
+                highlights: [
+                    'Méthodes de paiement adaptées aux marchés locaux et internationaux',
+                    'Interface simple et accessible sur mobile',
+                    'Orientation forte vers l\'entraide et la solidarité'
+                ],
+                url: 'https://www.cofundy.com'
+            }
+        ];
+
+        let currentCategory = 'all';
+
+        // Render Platform Cards
+        function renderPlatforms(data) {
+            const grid = document.getElementById('platformGrid');
+            const noResults = document.getElementById('noResults');
+            
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            data.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between border border-taupe/15 group hover:-translate-y-1";
+                
+                card.innerHTML = `
+                    <div>
+                        <!-- Card Header Image -->
+                        <div class="relative h-44 overflow-hidden bg-slateDark">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slateDark/80 via-transparent to-transparent"></div>
+                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/90 text-slateDark shadow-sm backdrop-blur-md">
+                                ${p.categoryLabel}
+                            </span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-xl font-serif font-bold text-slateDark">${p.name}</h3>
+                                <span class="text-xs text-taupe flex items-center gap-1">
+                                    <i class="fa-solid fa-location-dot text-sage-500"></i> ${p.zone.split(' ')[0]}
+                                </span>
+                            </div>
+                            
+                            <p class="text-xs sm:text-sm text-slateDark/80 leading-relaxed line-clamp-3 mb-4">
+                                ${p.shortDesc}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer Actions -->
+                    <div class="px-5 pb-5 pt-0 flex items-center justify-between gap-2 border-t border-taupe/10 pt-3 mt-auto">
+                        <button onclick="openModal('${p.id}')" class="text-xs font-semibold text-sage-600 hover:text-sage-700 flex items-center gap-1 transition-colors py-1">
+                            <span>Voir la fiche</span>
+                            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                        
+                        <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-slateDark hover:bg-sage-600 text-white text-xs font-medium transition-colors flex items-center gap-1.5 shadow-sm">
+                            <span>Site officiel</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Logic
+        function filterPlatforms() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            const filtered = platforms.filter(p => {
+                const matchesCategory = (currentCategory === 'all') || (p.category === currentCategory);
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm) || 
+                                      p.shortDesc.toLowerCase().includes(searchTerm) || 
+                                      p.zone.toLowerCase().includes(searchTerm) ||
+                                      p.categoryLabel.toLowerCase().includes(searchTerm);
+                
+                return matchesCategory && matchesSearch;
+            });
+
+            renderPlatforms(filtered);
+        }
+
+        function setCategory(category) {
+            currentCategory = category;
+            
+            // Update active state on buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.classList.add('bg-sage-500', 'text-white', 'shadow-sm');
+                    btn.classList.remove('bg-white', 'text-slateDark', 'border-taupe/20');
+                } else {
+                    btn.classList.remove('bg-sage-500', 'text-white', 'shadow-sm');
+                    btn.classList.add('bg-white', 'text-slateDark', 'border-taupe/20');
+                }
+            });
+
+            filterPlatforms();
+        }
+
+        // Modal Handlers
+        function openModal(id) {
+            const platform = platforms.find(p => p.id === id);
+            if (!platform) return;
+
+            document.getElementById('modalImage').src = platform.image;
+            document.getElementById('modalTitle').innerText = platform.name;
+            document.getElementById('modalCategory').innerText = platform.categoryLabel;
+            document.getElementById('modalZone').querySelector('span').innerText = platform.zone;
+            document.getElementById('modalModel').querySelector('span').innerText = platform.model;
+            document.getElementById('modalDescription').innerText = platform.description;
+            document.getElementById('modalLink').href = platform.url;
+
+            // Render Highlights List
+            const highlightsContainer = document.getElementById('modalHighlights');
+            highlightsContainer.innerHTML = '';
+            platform.highlights.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start gap-2';
+                li.innerHTML = `<i class="fa-solid fa-circle-check text-sage-500 text-xs mt-1"></i> <span>${item}</span>`;
+                highlightsContainer.appendChild(li);
+            });
+
+            const modal = document.getElementById('platformModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('platformModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Close Modal when clicking outside
+        document.getElementById('platformModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close Modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Initialize Page
+        window.onload = function() {
+            renderPlatforms(platforms);
+        };
+    </script>
+</body>
+</html>
